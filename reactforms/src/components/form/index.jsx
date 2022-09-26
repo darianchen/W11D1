@@ -11,28 +11,41 @@ const Form = ({onClose}) =>{
     const [staff, setType] = useState('');
     const [bio, setBio] = useState('');
     const [signUp, setSignUp] = useState('');
-    console.log(inputField);
+    const [validationErrors, setValidationErrors] = useState([]);
+    const [hasSubmitted, setHasSubmitted] = useState(false);
+    
 
     useEffect( () => {
-        inputField.current.focus();
-    }, []);
-
+    //     inputField.current.focus();
+    // }, []);
+    const errors = [];
+    if (!name.length) errors.push('Please enter your Name');
+    if (!email.includes('@')) errors.push('Please provide a valid Email');
+    setValidationErrors(errors);
+    }, [name, email])
 
     const handleSubmit = e => {
         e.preventDefault();
-        console.log(inputField.current);
-        
-        console.log({name, email, phone});
-        onClose();
-    }
+        setHasSubmitted(true);
+        if (validationErrors.length) return alert(`Cannot Submit`);
 
-    // const handleCheckbox = e => {
-    //     const name = e.target.name;
-    //     const checked = e.target.checked;
-    //     this.setState((prevState) => {
-    //         this.state.type[name] = !prevState.type[name];
-    //     });
-    // }
+    const contactUsInformation = {
+      name,
+      email,
+      phone,
+      phoneType
+      
+    };
+
+    console.log(contactUsInformation);
+    setName('');
+    setEmail('');
+    setPhone('');
+    setPhoneType('');
+    setValidationErrors([]);
+    setHasSubmitted(false);
+  
+    }
 
     const options = [
     'Mobile', 'Home'
@@ -41,6 +54,18 @@ const Form = ({onClose}) =>{
 
 
     return (
+    <div>
+    
+      {hasSubmitted && validationErrors.length > 0 && (
+        <div>
+          The following errors were found:
+          <ul>
+            {validationErrors.map(error => (
+              <li key={error}>{error}</li>
+            ))}
+          </ul>
+        </div>
+      )}
         
       <form onSubmit={handleSubmit}>  
         <h1>FILL OUT FORM</h1>   
@@ -74,8 +99,7 @@ const Form = ({onClose}) =>{
           <label htmlFor='phoneType'>Phone Type:</label>
            <select name="phoneType"
             onChange={e => setPhoneType(e.target.value)}
-            value={phoneType}
-          >
+            value={phoneType}>
             <option value='' disabled>
               Select a phone type...
             </option>
@@ -84,9 +108,6 @@ const Form = ({onClose}) =>{
               <option value="work">work</option>
               <option value="mobile">mobile</option>
             </select>
-
-
-
             <br></br>
             <label htmlFor='staff'>Instructor:</label>
             <input id="staff"
@@ -113,16 +134,17 @@ const Form = ({onClose}) =>{
             <br></br>
 
         
-      <input type="checkbox" id="signup" name="signup"
+            <input type="checkbox" id="signup" name="signup"
              onChange={e => setSignUp(e.target.value)}
              />
-      <label for="signup">Sign Up for Email?</label>
+            <label for="signup">Sign Up for Email?</label>
    
 
 
 
-      {/* <input type={'submit'} value="Apply!" /> */}
+            <input type={'submit'} value="Submit Form" />
     </form>
+    </div>
   )
 };
 
