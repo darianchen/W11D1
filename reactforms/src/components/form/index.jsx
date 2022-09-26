@@ -21,9 +21,18 @@ const Form = ({onClose}) =>{
     const handleSubmit = e => {
         e.preventDefault();
         console.log(inputField.current);
+        
         console.log({name, email, phone});
         onClose();
     }
+
+    // const handleCheckbox = e => {
+    //     const name = e.target.name;
+    //     const checked = e.target.checked;
+    //     this.setState((prevState) => {
+    //         this.state.type[name] = !prevState.type[name];
+    //     });
+    // }
 
     const options = [
     'Mobile', 'Home'
@@ -94,6 +103,22 @@ const Form = ({onClose}) =>{
             name="staff"
             onChange={e=> setType(e.target.value)}
             />
+            <br></br>
+
+            <label htmlFor='bio'>Bio:</label>
+            <textarea id="bio" name="bio" type='textarea' 
+            placeholder='Bio' 
+            value={bio}
+            onChange={e => setBio(e.target.value)}>Enter text here...</textarea>
+            <br></br>
+
+        
+      <input type="checkbox" id="signup" name="signup"
+             onChange={e => setSignUp(e.target.value)}
+             />
+      <label for="signup">Sign Up for Email?</label>
+   
+
 
 
       {/* <input type={'submit'} value="Apply!" /> */}
